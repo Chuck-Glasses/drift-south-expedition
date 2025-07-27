@@ -27,7 +27,7 @@ def load_visual_csv(path='visualrecord.csv') -> pd.DataFrame:
 def compare_csvs(field_df: pd.DataFrame, visual_df: pd.DataFrame) -> pd.DataFrame:
     """
     Compare two DataFrames cell-by-cell, returning a DataFrame of differences:
-      - sample_number
+      - sample_id
       - column
       - field_value
       - visual_value
