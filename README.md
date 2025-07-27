@@ -14,9 +14,7 @@ River. Along the way, we’re:
 ## Core Sections
 
 - [`/protocols/`](./protocols): Field-tested sampling steps for all base and partner data
-- [`/contacts/`](./contacts): Researchers, educators, and partners connected to DSE
 - [`/data/`](./data): Raw & processed environmental data (to be uploaded post-expedition)
-- [`/outreach/`](./outreach): Media plans, sample emails, and story-building tools
 - [`/planning/`](./planning): Route breakdowns, KML files, and documentation
 
 ## Who This Is For
