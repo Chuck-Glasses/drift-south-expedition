@@ -6,7 +6,7 @@ qa_qc_pipeline.py
 A simple QA/QC automation pipeline:
 1) Imports 'field.csv'
 2) Imports 'visualrecord.csv' (e.g., generated via easyOCR)
-3) Compares both CSVs and flags any mismatches by sample_number
+3) Compares both CSVs and flags any mismatches by sample_id
 4) Exports 'differences.csv' for manual review
 """
 import pandas as pd
