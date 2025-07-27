@@ -1,0 +1,64 @@
+# Charles Lampman 2025.07.27
+# Drift South Expedition Automation of QA/QC
+"""
+qa_qc_pipeline.py
+
+A simple QA/QC automation pipeline:
+1) Imports 'field.csv'
+2) Imports 'visualrecord.csv' (e.g., generated via easyOCR)
+3) Compares both CSVs and flags any mismatches by sample_number
+4) Exports 'differences.csv' for manual review
+"""
+import pandas as pd
+import os
+
+def load_field_csv(path='field.csv') -> pd.DataFrame:
+    """Load the manual field data CSV."""
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Field file not found: {path}")
+    return pd.read_csv(path)
+
+def load_visual_csv(path='visualrecord.csv') -> pd.DataFrame:
+    """Load the OCR-derived visual record CSV."""
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Visual record file not found: {path}")
+    return pd.read_csv(path)
+
+def compare_csvs(field_df: pd.DataFrame, visual_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Compare two DataFrames cell-by-cell, returning a DataFrame of differences:
+      - sample_number
+      - column
+      - field_value
+      - visual_value
+    """
+    headers = field_df.columns
+    diffs = []
+    for idx in field_df.index:
+        for col in headers:
+            val_field = field_df.at[idx, col]
+            val_visual = visual_df.at[idx, col]
+            if pd.isna(val_field) and pd.isna(val_visual):
+                continue
+            if val_field != val_visual:
+                diffs.append({
+                    'sample_number': field_df.at[idx, 'sample_number'],
+                    'column': col,
+                    'field_value': val_field,
+                    'visual_value': val_visual
+                })
+    return pd.DataFrame(diffs)
+
+def main():
+    # 1) Load field.csv
+    field_df = load_field_csv('field.csv')
+    # 2) Load visualrecord.csv
+    visual_df = load_visual_csv('visualrecord.csv')
+    # 3) Run comparison
+    diffs_df = compare_csvs(field_df, visual_df)
+    # 4) Export results
+    diffs_df.to_csv('differences.csv', index=False)
+    print(f"QA/QC complete. {len(diffs_df)} differences flagged. See 'differences.csv'.")
+
+if __name__ == '__main__':
+    main()
