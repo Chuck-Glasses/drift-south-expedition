@@ -42,7 +42,7 @@ def compare_csvs(field_df: pd.DataFrame, visual_df: pd.DataFrame) -> pd.DataFram
                 continue
             if val_field != val_visual:
                 diffs.append({
-                    'sample_number': field_df.at[idx, 'sample_number'],
+                    'sample_id': field_df.at[idx, 'sample_id'],
                     'column': col,
                     'field_value': val_field,
                     'visual_value': val_visual
